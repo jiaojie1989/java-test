@@ -43,7 +43,7 @@ public class test {
     public static void main(String[] args) {
         System.out.println("Hello world !");
 //        queryMysql();
-        HashSet<String> set = readFile("/data/scripts/duizhang/201601_wx/test");
+        HashSet<String> set = readFile("/data/scripts/duizhang/201602_wx/test");
         doThings(set);
 //        System.out.println(set);
         System.out.println("End !");
@@ -59,17 +59,17 @@ public class test {
             HashMap<String, String> sub = queryMysql4Subscribe(strArr[0]);
             pay.put("totalPayments", queryWxAll(strArr[0]));
             if (validateWhetherRefundOrder(pay)) {
-                writeFile("/data/scripts/duizhang/201601_wx/wbpay_wxfinance_fill.txt", generateWxFill(pay, sub));
-                writeFile("/data/scripts/duizhang/201601_wx/wbpay_wxfinance_strike.txt", generateWxStrike(pay, sub));
+                writeFile("/data/scripts/duizhang/201602_wx/wbpay_wxfinance_fill.txt", generateWxFill(pay, sub));
+                writeFile("/data/scripts/duizhang/201602_wx/wbpay_wxfinance_strike.txt", generateWxStrike(pay, sub));
                 writeFile("/data/scripts/duizhang/201601_wx/wbpay_finance_pay.txt", generateWxPay(pay, sub));
                 pay.put("status", "-1");
                 pay.put("totalPayments", "-" + pay.get("totalPayments"));
-                writeFile("/data/scripts/duizhang/201601_wx/wbpay_wxfinance_fill.txt", generateWxFill(pay, sub));
+                writeFile("/data/scripts/duizhang/201602_wx/wbpay_wxfinance_fill.txt", generateWxFill(pay, sub));
             } else {
                 if (null != pay.get("orderId")) {
-                    writeFile("/data/scripts/duizhang/201601_wx/wbpay_wxfinance_fill.txt", generateWxFill(pay, sub));
-                    writeFile("/data/scripts/duizhang/201601_wx/wbpay_wxfinance_order_wx.txt", generateWxOrder(pay, sub));
-                    writeFile("/data/scripts/duizhang/201601_wx/wbpay_finance_pay.txt", generateWxPay(pay, sub));
+                    writeFile("/data/scripts/duizhang/201602_wx/wbpay_wxfinance_fill.txt", generateWxFill(pay, sub));
+                    writeFile("/data/scripts/duizhang/201602_wx/wbpay_wxfinance_order_wx.txt", generateWxOrder(pay, sub));
+                    writeFile("/data/scripts/duizhang/201602_wx/wbpay_finance_pay.txt", generateWxPay(pay, sub));
                 } else {
                     System.out.println(strArr[0]);
                 }
@@ -81,8 +81,8 @@ public class test {
     protected static boolean validateWhetherRefundOrder(HashMap<String, String> pay) {
         HashSet<String> set = new HashSet<String>() {
             {
-                add("00016011581441626316810");
-                add("00016011562631814411122");
+                add("00216022348201036306119");
+                add("00016012985201247514022");
                 add("000160112814476061406305");
                 add("000160112814476468304334");
             }
@@ -219,9 +219,10 @@ public class test {
         try {
             str += pay.get("orderId");
             str += "\t";
-            str += "2016-01";
+//            str += "2016-02";
+            str += queryZhangDanMonth(pay.get("orderId"));
             str += "\t";
-            str += "2016-01-26";
+            str += "2016-02-26";
             str += "\r\n";
         } catch (Exception e) {
             e.printStackTrace();
@@ -288,16 +289,35 @@ public class test {
         String ret = "";
         try {
             ResultSet queryRet = db.executeSql(sql);
-            while(queryRet.next()) {
+            while (queryRet.next()) {
                 ret = queryRet.getString("dingdanMonth");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            System.out.println(ret);
             return ret;
         }
     }
-    
+
+    protected static String queryZhangDanMonth(String orderId) {
+        String sql = "select * from wx_all where orderId=\'" + orderId + "\'";
+//        System.out.println(sql);
+        mysql db = new mysql();
+        String ret = "";
+        try {
+            ResultSet queryRet = db.executeSql(sql);
+            while (queryRet.next()) {
+                ret = queryRet.getString("shujubao");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println(ret);
+            return ret;
+        }
+    }
+
     protected static HashMap<String, String> queryMysql(String orderId) {
         String sql = "select * from pay_order where order_id='" + orderId + "' and status=1 limit 1";
 //        System.out.println(sql);
