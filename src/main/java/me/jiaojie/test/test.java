@@ -61,7 +61,7 @@ public class test {
             if (validateWhetherRefundOrder(pay)) {
                 writeFile("/data/scripts/duizhang/201602_wx/wbpay_wxfinance_fill.txt", generateWxFill(pay, sub));
                 writeFile("/data/scripts/duizhang/201602_wx/wbpay_wxfinance_strike.txt", generateWxStrike(pay, sub));
-                writeFile("/data/scripts/duizhang/201601_wx/wbpay_finance_pay.txt", generateWxPay(pay, sub));
+                writeFile("/data/scripts/duizhang/201602_wx/wbpay_finance_pay.txt", generateWxPay(pay, sub));
                 pay.put("status", "-1");
                 pay.put("totalPayments", "-" + pay.get("totalPayments"));
                 writeFile("/data/scripts/duizhang/201602_wx/wbpay_wxfinance_fill.txt", generateWxFill(pay, sub));
@@ -295,7 +295,7 @@ public class test {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            System.out.println(ret);
+//            System.out.println(ret);
             return ret;
         }
     }
@@ -313,7 +313,7 @@ public class test {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            System.out.println(ret);
+            //System.out.println(ret);
             return ret;
         }
     }
