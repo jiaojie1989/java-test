@@ -40,14 +40,14 @@ public class test {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        System.out.println("Hello world !");
-//        queryMysql();
-        HashSet<String> set = readFile("/data/scripts/duizhang/201602_wx/test");
-        doThings(set);
-//        System.out.println(set);
-        System.out.println("End !");
-    }
+//    public static void main(String[] args) {
+//        System.out.println("Hello world !");
+////        queryMysql();
+//        HashSet<String> set = readFile("/data/scripts/duizhang/201602_wx/test");
+//        doThings(set);
+////        System.out.println(set);
+//        System.out.println("End !");
+//    }
 
     protected static void doThings(HashSet<String> set) {
         Iterator it = set.iterator();
