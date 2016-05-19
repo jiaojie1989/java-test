@@ -54,10 +54,10 @@ public class TSortedSet {
 //        }, 3, TimeUnit.SECONDS);
         scheduledThreadPool.scheduleWithFixedDelay(new Runnable() {
             public void run() {
-                synchronized (Set) {
-                    SortedSet<TemplateElement> Temp = Set.headSet(new TemplateElement("null", 4.0));
-                    Set = Collections.synchronizedSortedSet(Set.tailSet(new TemplateElement("null", 4.0)));
-                }
+//                synchronized (Set) {
+//                    SortedSet<TemplateElement> Temp = Set.headSet(new TemplateElement("null", 4.0));
+//                    Set = Collections.synchronizedSortedSet(Set.tailSet(new TemplateElement("null", 4.0)));
+//                }
             }
         }, 1, 1000, TimeUnit.MICROSECONDS);
         scheduledThreadPool.scheduleWithFixedDelay(new Runnable() {
