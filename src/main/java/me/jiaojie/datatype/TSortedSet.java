@@ -11,6 +11,7 @@
 package me.jiaojie.datatype;
 
 import java.util.TreeSet;
+import java.util.HashMap;
 import java.util.SortedSet;
 import java.util.Iterator;
 import me.jiaojie.datatype.TemplateComparator;
@@ -19,6 +20,10 @@ import java.util.Collections;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import org.apache.log4j.Logger;
+import me.jiaojie.datatype.RunMe;
+import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
 
 /**
  *
@@ -26,45 +31,74 @@ import java.util.concurrent.TimeUnit;
  */
 public class TSortedSet {
 
-    public static void main(String[] args) {
+    protected Logger Logger;
+
+    public static void amain(String[] args) {
         System.out.println("--start--");
-        SortedSet<TemplateElement> Set = Collections.synchronizedSortedSet(new TreeSet(new TemplateComparator()));
-        Set.add(new TemplateElement("bidu", 1.0));
-        Set.add(new TemplateElement("sina", 2.0));
-        Set.add(new TemplateElement("baba", 3.0));
-        Set.add(new TemplateElement("sohu", 4.0));
-        Set.add(new TemplateElement("taob", 5.0));
-        Set.add(new TemplateElement("mi", 6.2));
-        Set.add(new TemplateElement("letv", 7.2));
+
 //        Iterator It = Set.tailSet(new TemplateElement("null", 3)).iterator();
 //        while (It.hasNext()) {
 //            System.out.println(Set.remove(It.next()));
 //        }
-        synchronized (Set) {
-            SortedSet<TemplateElement> Temp = Set.headSet(new TemplateElement("null", 4.0));
-            Set = Collections.synchronizedSortedSet(Set.tailSet(new TemplateElement("null", 4.0)));
-        }
-
-        System.out.println(Set);
-        ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(5);
+        ScheduledExecutorService scheduledThreadPool1 = Executors.newScheduledThreadPool(5);
 //        scheduledThreadPool.schedule(new Runnable() {
 //            public void run() {
 //                System.out.println("delay 3 seconds");
 //            }
 //        }, 3, TimeUnit.SECONDS);
-        scheduledThreadPool.scheduleWithFixedDelay(new Runnable() {
+
+        scheduledThreadPool1.scheduleWithFixedDelay(new Runnable() {
             public void run() {
-//                synchronized (Set) {
-//                    SortedSet<TemplateElement> Temp = Set.headSet(new TemplateElement("null", 4.0));
-//                    Set = Collections.synchronizedSortedSet(Set.tailSet(new TemplateElement("null", 4.0)));
-//                }
+                Faker MyFaker = new Faker();
+                Name MyName = MyFaker.name();
+                String Symbol = MyName.lastName();
+                double Rank = MyFaker.number().randomDouble(2, 0, 1000);
+                RunMe.getInstance().add(Symbol, (float) Rank);
             }
-        }, 1, 1000, TimeUnit.MICROSECONDS);
-        scheduledThreadPool.scheduleWithFixedDelay(new Runnable() {
+        }, 1, 100, TimeUnit.MICROSECONDS);
+        scheduledThreadPool1.scheduleWithFixedDelay(new Runnable() {
             public void run() {
-                System.out.println("delay 3 seconds");
+                Faker MyFaker = new Faker();
+                Name MyName = MyFaker.name();
+                String Symbol = MyName.lastName();
+                double Rank = MyFaker.number().randomDouble(2, 0, 1000);
+                RunMe.getInstance().add(Symbol, (float) Rank);
             }
-        }, 1, 1000, TimeUnit.MICROSECONDS);
+        }, 1, 100, TimeUnit.MICROSECONDS);
+        scheduledThreadPool1.scheduleWithFixedDelay(new Runnable() {
+            public void run() {
+                Faker MyFaker = new Faker();
+                Name MyName = MyFaker.name();
+                String Symbol = MyName.lastName();
+                double Rank = MyFaker.number().randomDouble(2, 0, 1000);
+                RunMe.getInstance().add(Symbol, (float) Rank);
+            }
+        }, 1, 100, TimeUnit.MICROSECONDS);
+        scheduledThreadPool1.scheduleWithFixedDelay(new Runnable() {
+            public void run() {
+                Faker MyFaker = new Faker();
+                double Rank = MyFaker.number().randomDouble(2, 0, 1000);
+                RunMe.getInstance().tail((float) Rank);
+            }
+        }, 0, 10, TimeUnit.MICROSECONDS);
+        scheduledThreadPool1.scheduleWithFixedDelay(new Runnable() {
+            public void run() {
+                RunMe.getInstance().getNum();
+            }
+        }, 1, 1, TimeUnit.SECONDS);
         System.out.println("-- end --");
     }
+    
+    public static void main(String[] args) {
+        HashMap<TemplateElement, TemplateElement> map = new HashMap();
+        String a = "a";
+        String b = "a";
+        map.put(new TemplateElement(a, 1), new TemplateElement(a, 1));
+        System.out.println(map.containsKey(new TemplateElement(a, 1)));
+        
+    }
+    
+//    public static void main(String[] args) {
+//        
+//    }
 }

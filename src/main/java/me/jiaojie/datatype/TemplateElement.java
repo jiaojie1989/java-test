@@ -10,6 +10,8 @@
  */
 package me.jiaojie.datatype;
 
+import java.util.Objects;
+
 /**
  *
  * @author jiaojie <jiaojie@staff.sina.com>
@@ -28,8 +30,32 @@ public class TemplateElement {
         return this.Rank;
     }
 
+    @Override
     public String toString() {
         return this.Name;
+    }
+
+    @Override
+    public int hashCode() {
+        return Name.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TemplateElement other = (TemplateElement) obj;
+        if (!Objects.equals(this.Name, other.Name)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.Rank) != Double.doubleToLongBits(other.Rank)) {
+            return false;
+        }
+        return true;
     }
 
 }
